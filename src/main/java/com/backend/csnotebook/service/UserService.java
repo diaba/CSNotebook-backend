@@ -51,7 +51,6 @@ public class UserService {
         }
     }
 
-
     public ResponseEntity<?> loginUser(LoginRequest loginRequest) {
         LOGGER.info("Called loginUser() from UserService");
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
