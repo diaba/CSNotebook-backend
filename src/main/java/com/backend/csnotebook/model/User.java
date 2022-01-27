@@ -5,6 +5,7 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
+import java.util.List;
 
 /** The User class represents the individual user
  * that interacts with the application. This class facilitates the creation
@@ -29,7 +30,7 @@ public class User {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    /** User's Days Property - containing the number of days */
+    /** User's Topics Property - containing the number of topics */
     @OneToMany(mappedBy = "user")
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Topic> topics;
