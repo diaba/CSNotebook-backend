@@ -1,5 +1,6 @@
 package com.backend.csnotebook.service;
 
+import com.backend.csnotebook.exceptions.InfoExistsException;
 import com.backend.csnotebook.model.User;
 import com.backend.csnotebook.model.auth.request.LoginRequest;
 import com.backend.csnotebook.model.auth.response.LoginResponse;
@@ -46,7 +47,7 @@ public class UserService {
             userObject.setPassword(passwordEncoder.encode(userObject.getPassword()));
             return userRepository.save(userObject);
         }else {
-            throw new InformationExistsException("User with email: " + userObject.getEmail() + " already exists");
+            throw new InfoExistsException("User with email: " + userObject.getEmail() + " already exists");
         }
     }
 
