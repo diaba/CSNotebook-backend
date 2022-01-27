@@ -5,6 +5,7 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
+import java.util.List;
 
 /** The Topic class encapsulates a User's selects / generated cards which hold study information.
  * This class facilitates the creation and manipulation of Topic objects.
@@ -23,11 +24,11 @@ public class Topic {
     private String name;
 
     /** Topic description property Represents the description of the topic. */
-    @Column
+    @Column(length = 2000)
     private String description;
 
     /** The Topic's Card Property - Contains all Cards entered by the user. */
-    @OneToMany(mappedBy = "card", orphanRemoval = true)
+    @OneToMany(mappedBy = "topic", orphanRemoval = true)
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Card> cards;
 
