@@ -1,13 +1,19 @@
 package com.backend.csnotebook.controller;
 
+import com.backend.csnotebook.model.User;
 import com.backend.csnotebook.model.auth.request.LoginRequest;
+import com.backend.csnotebook.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.logging.Logger;
 
+/** The UserController class serves as the controller for managing the flow of user data. */
 @RestController
 @RequestMapping("/auth/users")
 public class UserController {
