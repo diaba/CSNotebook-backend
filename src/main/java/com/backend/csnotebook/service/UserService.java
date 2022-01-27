@@ -4,6 +4,7 @@ import com.backend.csnotebook.model.User;
 import com.backend.csnotebook.model.auth.request.LoginRequest;
 import com.backend.csnotebook.model.auth.response.LoginResponse;
 import com.backend.csnotebook.repository.UserRepository;
+import com.backend.csnotebook.security.JWTUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -55,5 +56,10 @@ public class UserService {
         final UserDetails userDetails = userDetailsService.loadUserByUsername(loginRequest.getEmail());
         final String token = jwtUtils.generateToken(userDetails);
         return ResponseEntity.ok(new LoginResponse(token));
+    }
+
+    public User findUserByEmailAddress(String email) {
+        LOGGER.info("Called findUserByEmailAddress() from UserService");
+        return userRepository.findUserByEmail(email);
     }
 }
