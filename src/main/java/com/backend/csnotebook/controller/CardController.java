@@ -21,6 +21,15 @@ public class CardController {
         this.cardService = cardService;
     }
 
+    /** Returns all the publicly available cards regardless of topic.
+     * @return A list of all available cards not belonging to a user.
+     */
+    @GetMapping("cards")
+    public List<Card> getAllFreeCards(){
+        LOGGER.info("Calling getAllFreeCards() method from CardController!");
+                return cardService.getAllFreeCards();
+    }
+
     /** Returns all cards of a specific topic!
      * @param topicName The name of the topic to retrieve its cards
      * @return The list of cards belonging to the searched topic. */
@@ -71,4 +80,6 @@ public class CardController {
         LOGGER.info("Calling deleteCard method from CardController!");
         cardService.deleteCard(topicName, cardId);
     }
+
+
 }

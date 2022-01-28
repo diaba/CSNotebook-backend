@@ -13,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.logging.Logger;
@@ -154,5 +155,15 @@ public class CardService {
         else{
             throw new NotLoggedInException("You must be logged in to add custom cards!");
         }
+    }
+
+    public List<Card> getAllFreeCards() {
+        LOGGER.info("Calling getAllFreeCards method from CardService!");
+        List<Topic> topics = topicRepository.findByUserId(null);
+        List<Card> cards = new ArrayList<>();
+        topics.forEach(topic -> {
+            cards.addAll(topic.getCards());
+        });
+        return cards;
     }
 }
