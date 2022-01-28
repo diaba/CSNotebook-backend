@@ -3,10 +3,7 @@ package com.backend.csnotebook.controller;
 import com.backend.csnotebook.model.Card;
 import com.backend.csnotebook.service.CardService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -32,5 +29,18 @@ public class CardController {
     public List<Card> getAllCardsByTopic(@PathVariable(value = "topicName") String topicName) {
         LOGGER.info("Calling getAllCardsByTopic() Method from CardController");
         return cardService.getAllCardsByTopic(topicName);
+    }
+
+    /** Create a new card within the designated topic.
+     * @param topicName The name of the topic in which to create the card.
+     * @param cardObject The card object containing the information about the card.
+     * @return The newly created card.
+     */
+    // CREATE NEW CARD
+    @PostMapping("{topicName}/cards")
+    public Card createNewCard(@PathVariable(value = "topicName") String topicName,
+                              @RequestBody Card cardObject) {
+        LOGGER.info("Calling createNewCard() method from CardController!");
+        return cardService.createNewCard(topicName, cardObject);
     }
 }

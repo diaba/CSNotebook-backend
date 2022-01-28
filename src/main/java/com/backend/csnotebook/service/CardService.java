@@ -1,11 +1,16 @@
 package com.backend.csnotebook.service;
 
 import com.backend.csnotebook.exceptions.InfoDoesNotExistException;
+import com.backend.csnotebook.exceptions.NotLoggedInException;
+import com.backend.csnotebook.exceptions.RestrictedAccessException;
 import com.backend.csnotebook.model.Card;
 import com.backend.csnotebook.model.Topic;
 import com.backend.csnotebook.repository.CardRepository;
 import com.backend.csnotebook.repository.TopicRepository;
+import com.backend.csnotebook.security.MyUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,6 +34,10 @@ public class CardService {
         this.cardRepository = cardRepository;
     }
 
+    /** Returns the cards belonging to the topic searched for if it exists.
+     * @param topicName The name of the topic in which to return cards from.
+     * @return A list of cards belonging to the searched topic.
+     */
     public List<Card> getAllCardsByTopic(String topicName) {
         LOGGER.info("Calling getAllCardsByTopic() method from CardService!");
         Topic topic = topicRepository.findByName(topicName);
@@ -47,10 +56,31 @@ public class CardService {
     }
 
 
-
-
-
-
-
-
+    /** Creates a new card in a given topic if the user is logged in and has access to the specific topic.
+     * @param topicName The name of the topic in which to add the card to.
+     * @param cardObject The card object containing the information for the new card
+     * @return The newly created card.
+     */
+    public Card createNewCard(String topicName, Card cardObject) {
+        LOGGER.info("Calling createNewCard() method from CardService!");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth.getAuthorities().isEmpty()) {
+            MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder
+                    .getContext().getAuthentication().getPrincipal();
+            Topic topic = topicRepository.findByName(topicName);
+            if (topic == null){
+                throw new InfoDoesNotExistException("A topic with the name of: '" + topicName +"' does not exist!");
+            }
+            else if (topic.getUser() == userDetails.getUser()){
+                cardObject.setTopic(topic);
+                return cardRepository.save(cardObject);
+            }
+            else{
+                throw new RestrictedAccessException("You may not add cards to this topic!");
+            }
+        }
+        else{
+            throw new NotLoggedInException("You must be logged in to add custom cards!");
+        }
+    }
 }
