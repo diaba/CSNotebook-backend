@@ -34,7 +34,7 @@ public class TopicController {
      * @param topicName - The topic's Name in which to search
      * @return The topic that matches the given topic name.
      */
-    // GET TOPIC BY ID (localhost:9092/api/topics/{topicName}
+    // GET TOPIC BY ID (localhost:9092/api/topics/{topicName})
     @GetMapping("/topics/{topicName}")
     public Topic getTopicByName(@PathVariable(value = "topicName")String topicName){
         LOGGER.info("Calling the getTopicByName() method from TopicController!");
@@ -56,10 +56,21 @@ public class TopicController {
      * @param topicName The ID of the topic to update.
      * @param topicObject The topic object holding to update information.
      * @return The newly updated topic. */
-    // UPDATE NEW TOPIC (localhost:9092/api/topics/{topicId}
+    // UPDATE  TOPIC (localhost:9092/api/topics/{topicName})
     @PutMapping("/topics/{topicName}")
     public Topic updateTopic(@PathVariable String topicName, @RequestBody Topic topicObject){
         LOGGER.info("Calling updateTopic() method from TopicController");
         return topicService.updateTopic(topicName, topicObject);
+    }
+
+    /** Deletes a topic identified by its name.
+     * @param topicName The name of the topic to delete
+     * @return The topic that was deleted.
+     */
+    // DELETE TOPIC (localhost:9092/api/topics/{topicName})
+    @DeleteMapping("/topics/{topicName}")
+    public Topic deleteTopic(@PathVariable String topicName){
+        LOGGER.info("Calling deleteTopic from TopicController!");
+        return topicService.deleteTopic(topicName);
     }
 }

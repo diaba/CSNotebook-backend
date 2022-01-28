@@ -79,6 +79,11 @@ public class TopicService {
         }
     }
 
+    /** Finds and updates a topic by its name that belongs to a particular user.
+     * @param topicName The name of the topic to update.
+     * @param topicObject The topic object containing the update information.
+     * @return The newly updated topic.
+     */
     public Topic updateTopic(String topicName, Topic topicObject) {
         LOGGER.info("Called updateTopic() method from TopicService!");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -94,6 +99,29 @@ public class TopicService {
                 topic.setDescription(topicObject.getDescription());
                 topic.setUser(userDetails.getUser());
                 return topicRepository.save(topic);
+            }
+        }
+        else {
+            throw new NotLoggedInException("You must be logged in!");
+        }
+    }
+
+    /** Deletes a topic by name belonging to a particular user.
+     * @param topicName The name of the topic in which to delete.
+     * @return The deleted topic. */
+    public Topic deleteTopic(String topicName) {
+        LOGGER.info("Calling deleteTopic() method from TopicService!");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth.getAuthorities().isEmpty()){
+            MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder
+                    .getContext().getAuthentication().getPrincipal();
+            Topic topic = topicRepository.findByUserIdAndName(userDetails.getUser().getId(), topicName);
+            if (topic == null){
+                throw new InfoDoesNotExistException("A topic with the name: '" + topicName + "' does not exist!");
+            }
+            else{
+                topicRepository.delete(topic);
+                return topic;
             }
         }
         else {
