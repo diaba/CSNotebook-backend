@@ -72,7 +72,7 @@ public class CardService {
             if (topic == null){
                 throw new InfoDoesNotExistException("A topic with the name of: '" + topicName +"' does not exist!");
             }
-            else if (topic.getUser() == userDetails.getUser()){
+            else if (topic.getUser().getEmail().equals(userDetails.getUser().getEmail())){
                 cardObject.setTopic(topic);
                 return cardRepository.save(cardObject);
             }
@@ -122,5 +122,37 @@ public class CardService {
         }
     }
 
-    
+
+    /** Deletes a card in a given topic that belongs to the logged-in user!
+     * @param topicName The name of the topic in which the card exists.
+     * @param cardId The ID of the card in which to delete!
+     */
+    public void deleteCard(String topicName, Long cardId) {
+        LOGGER.info("Calling deleteCard() method from CardService!");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth.getAuthorities().isEmpty()) {
+            MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder
+                    .getContext().getAuthentication().getPrincipal();
+            Topic topic = topicRepository.findByName(topicName);
+            if (topic == null){
+                throw new InfoDoesNotExistException("A topic with the name of: '" + topicName +"' does not exist!");
+            }
+            else if (topic.getUser().getEmail().equals(userDetails.getUser().getEmail())){
+                Card card = cardRepository.findByIdAndTopicId(cardId, topic.getId());
+                if(card == null){
+                    throw new InfoDoesNotExistException("A card with ID: " + cardId + " doesn't exist!");
+                }
+                else{
+                    cardRepository.delete(card);
+                }
+            }
+            else{
+
+                throw new RestrictedAccessException("You cannot alter cards in this topic!");
+            }
+        }
+        else{
+            throw new NotLoggedInException("You must be logged in to add custom cards!");
+        }
+    }
 }

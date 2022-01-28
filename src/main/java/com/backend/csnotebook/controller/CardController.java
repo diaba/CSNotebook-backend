@@ -50,12 +50,25 @@ public class CardController {
      * @param cardObject The card object containing the new card information.
      * @return A newly updated object.
      */
-    // UPDATE NEW CARD
+    // UPDATE CARD BY ID
     @PutMapping("{topicName}/cards/{cardId}")
     public Card updateCard(@PathVariable(value = "topicName") String topicName,
                            @PathVariable(value = "cardId") Long cardId,
                            @RequestBody Card cardObject){
         LOGGER.info("Calling updateCard() method from CardController");
         return cardService.updateCard(topicName, cardId, cardObject);
+    }
+
+
+    /** Deletes a card belonging to a topic of the logged-in user.
+     * @param topicName The name of the topic to search containing the card to be deleted.
+     * @param cardId The ID of the card to delete.
+     */
+    // DELETE A CARD BY ID
+    @DeleteMapping("{topicName}/cards/{cardId}")
+    public void deleteCard(@PathVariable(value = "topicName") String topicName,
+                           @PathVariable(value = "cardId") Long cardId){
+        LOGGER.info("Calling deleteCard method from CardController!");
+        cardService.deleteCard(topicName, cardId);
     }
 }
