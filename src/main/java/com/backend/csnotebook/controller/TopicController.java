@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.logging.Logger;
 
 /** The TopicController class serves as the controller for managing the flow of data concerning Topics. */
@@ -31,15 +30,15 @@ public class TopicController {
         return topicService.getAllTopics();
     }
 
-    /** Returns a specific topic with the given topic ID.
-     * @param topicId - The topic's ID in which to search
-     * @return The topic that matches the given topic ID.
+    /** Returns a specific topic with the given topic name.
+     * @param topicName - The topic's Name in which to search
+     * @return The topic that matches the given topic name.
      */
-    // GET TOPIC BY ID (localhost:9092/api/topics/{topicId}
-    @GetMapping("/topics/{topicId}")
-    public Optional<Topic> getTopicById(@PathVariable(value = "topicId")Long topicId){
-        LOGGER.info("Calling the getTopicById() method from TopicController!");
-        return topicService.getTopicById(topicId);
+    // GET TOPIC BY ID (localhost:9092/api/topics/{topicName}
+    @GetMapping("/topics/{topicName}")
+    public Topic getTopicByName(@PathVariable(value = "topicName")String topicName){
+        LOGGER.info("Calling the getTopicByName() method from TopicController!");
+        return topicService.getTopicByName(topicName);
     }
 
     /** Creates a new topic if a user is logged into the app.

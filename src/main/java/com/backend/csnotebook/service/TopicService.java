@@ -12,7 +12,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.logging.Logger;
 
 /** The TopicService class responsible for handling business logic related to Topics. */
@@ -41,17 +40,17 @@ public class TopicService {
     }
 
     /** Called by the TopicController to find a topic by its ID.
-     * @param topicId The ID of the topic to search for.
-     * @return topic matching the topic ID.
+     * @param topicName The name of the topic to search for.
+     * @return topic matching the topic's name.
      */
-    public Optional<Topic> getTopicById(Long topicId) {
+    public Topic getTopicByName(String topicName) {
         LOGGER.info("Calling getTopicById() method TopicService!");
-        Optional<Topic> topic = topicRepository.findById(topicId);
-        if (topic.isPresent()){
+        Topic topic = topicRepository.findByName(topicName);
+        if (topic != null){
             return topic;
         }
         else{
-            throw new InfoDoesNotExistException("Topic with ID " + topicId + " does not exist!");
+            throw new InfoDoesNotExistException("Topic with the name: " + topicName + " does not exist!");
         }
     }
 
