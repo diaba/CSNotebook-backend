@@ -52,4 +52,15 @@ public class TopicController {
         LOGGER.info("Calling the createTopic() method from TopicController!");
         return topicService.createTopic(topic);
     }
+
+    /** Updates a topic belonging to a particular user.
+     * @param topicName The ID of the topic to update.
+     * @param topicObject The topic object holding to update information.
+     * @return The newly updated topic. */
+    // UPDATE NEW TOPIC (localhost:9092/api/topics/{topicId}
+    @PutMapping("/topics/{topicName}")
+    public Topic updateTopic(@PathVariable String topicName, @RequestBody Topic topicObject){
+        LOGGER.info("Calling updateTopic() method from TopicController");
+        return topicService.updateTopic(topicName, topicObject);
+    }
 }

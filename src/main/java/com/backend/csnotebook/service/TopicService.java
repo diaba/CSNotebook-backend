@@ -79,4 +79,26 @@ public class TopicService {
             throw new NotLoggedInException("You must be logged in!");
         }
     }
+
+    public Topic updateTopic(String topicName, Topic topicObject) {
+        LOGGER.info("Called updateTopic() method from TopicService!");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth.getAuthorities().isEmpty()){
+            MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder
+                    .getContext().getAuthentication().getPrincipal();
+            Topic topic = topicRepository.findByUserIdAndName(userDetails.getUser().getId(), topicName);
+            if (topic == null){
+                throw new InfoDoesNotExistException("A topic with the name '" + topicName + "' doesn't exist!");
+            }
+            else{
+                topic.setName(topicObject.getName());
+                topic.setDescription(topicObject.getDescription());
+                topic.setUser(userDetails.getUser());
+                return topicRepository.save(topic);
+            }
+        }
+        else {
+            throw new NotLoggedInException("You must be logged in!");
+        }
+    }
 }
