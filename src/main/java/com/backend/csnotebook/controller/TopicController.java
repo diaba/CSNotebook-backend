@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 
 /** The TopicController class serves as the controller for managing the flow of data concerning Topics. */
 @RestController
-@RequestMapping("/api")
+@RequestMapping("api")
 public class TopicController {
 
     private TopicService topicService;
