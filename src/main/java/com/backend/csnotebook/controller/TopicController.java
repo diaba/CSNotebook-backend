@@ -3,10 +3,13 @@ package com.backend.csnotebook.controller;
 import com.backend.csnotebook.model.Topic;
 import com.backend.csnotebook.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 /** The TopicController class serves as the controller for managing the flow of data concerning Topics. */
@@ -22,10 +25,23 @@ public class TopicController {
         this.topicService = topicService;
     }
 
+    /** Returns ALL topics available belonging to the user.
+     * @return topics */
     // GET ALL TOPICS (localhost:9092/api/topics)
+    @GetMapping("topics")
     public List<Topic> getAllTopics(){
         LOGGER.info("getAllTopics() Method called from TopicController!");
         return topicService.getAllTopics();
     }
 
+    /** Returns a specific topic with the given topic ID.
+     * @param topicId - The topic's ID in which to search
+     * @return The topic that matches the given topic ID.
+     */
+    // CREATE NEW TOPIC (localhost:9092/api/topics/{topicId}
+    @GetMapping("/topics/{topicId}")
+    public Optional<Topic> getTopicById(@PathVariable(value = "topicId")Long topicId){
+        LOGGER.info("Calling the getTopicById() method from TopicController!");
+        return topicService.getTopicById(topicId);
+    }
 }

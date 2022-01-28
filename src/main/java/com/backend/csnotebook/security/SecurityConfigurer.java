@@ -39,7 +39,8 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests().antMatchers(
-                        "/auth/users", "/auth/users/login", "/auth/users/register", "/auth/users/").permitAll()
+                        "/auth/users", "/auth/users/login", "/auth/users/register", "/auth/users/",
+                        "/api/topics", "/api/topics/{topicId}").permitAll()
                 .anyRequest().authenticated()
                 .and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
