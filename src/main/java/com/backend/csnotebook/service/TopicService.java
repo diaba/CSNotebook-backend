@@ -1,9 +1,14 @@
 package com.backend.csnotebook.service;
 
 import com.backend.csnotebook.exceptions.InfoDoesNotExistException;
+import com.backend.csnotebook.exceptions.InfoExistsException;
+import com.backend.csnotebook.exceptions.NotLoggedInException;
 import com.backend.csnotebook.model.Topic;
 import com.backend.csnotebook.repository.TopicRepository;
+import com.backend.csnotebook.security.MyUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -47,6 +52,31 @@ public class TopicService {
         }
         else{
             throw new InfoDoesNotExistException("Topic with ID " + topicId + " does not exist!");
+        }
+    }
+
+    /** Called by the TopicController to create a new object IF a user is logged in!
+     * @param topicObject The object a logged-in user wants to create.
+     * @return topic to be saved in the database.
+     */
+    public Topic createTopic(Topic topicObject) {
+        LOGGER.info("Calling createTopic() service from TopicService!");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth.getAuthorities().isEmpty()){
+            MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder
+                    .getContext().getAuthentication().getPrincipal();
+            Topic topic = topicRepository.findByUserIdAndName(userDetails
+                    .getUser().getId(), topicObject.getName());
+            if (topic == null){
+                topicObject.setUser(userDetails.getUser());
+                return topicRepository.save(topicObject);
+            }
+            else{
+                throw new InfoExistsException("A topic with that name already exists!");
+            }
+        }
+        else{
+            throw new NotLoggedInException("You must be logged in!");
         }
     }
 }
