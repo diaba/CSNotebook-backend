@@ -15,8 +15,8 @@ import java.util.List;
 public class Topic {
     /** Topic ID Property - Auto-generated to uniquely ID the Topic. */
     @Id
-    @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
     private Long id;
 
     /** Topic name property - Represents the name of the given topic. */

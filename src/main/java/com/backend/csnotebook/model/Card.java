@@ -13,8 +13,8 @@ public class Card {
 
     /** Card ID Property Auto-generated to uniquely ID the Card. */
     @Id
-    @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
     private Long id;
 
     @Column(length = 300)
