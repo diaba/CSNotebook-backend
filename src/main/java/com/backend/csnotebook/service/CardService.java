@@ -157,6 +157,9 @@ public class CardService {
         }
     }
 
+    /** Returns all cards that are available to users not logged in.
+     * @return A list of all freely available cards.
+     */
     public List<Card> getAllFreeCards() {
         LOGGER.info("Calling getAllFreeCards method from CardService!");
         List<Topic> topics = topicRepository.findByUserId(null);
