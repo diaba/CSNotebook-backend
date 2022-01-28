@@ -14,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Logger;
 
 /** The CardService class handles the business logic involving the study cards. */
@@ -83,4 +84,43 @@ public class CardService {
             throw new NotLoggedInException("You must be logged in to add custom cards!");
         }
     }
+
+    /** Updates a card in a specific topic belonging to the logged-in user.
+     * @param topicName The name of the topic in which the card to update exists.
+     * @param cardId The ID of the card in which to update.
+     * @param cardObject The card object containing the update information.
+     * @return The updated card.
+     */
+    public Card updateCard(String topicName, Long cardId, Card cardObject) {
+        LOGGER.info("Calling updateCard() method from CardService");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth.getAuthorities().isEmpty()) {
+            MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder
+                    .getContext().getAuthentication().getPrincipal();
+            Topic topic = topicRepository.findByName(topicName);
+            if (topic == null){
+                throw new InfoDoesNotExistException("A topic with the name of: '" + topicName +"' does not exist!");
+            }
+            else if (Objects.equals(topic.getUser().getEmail(), userDetails.getUser().getEmail())){
+                Card card = cardRepository.findByIdAndTopicId(cardId, topic.getId());
+                if(card == null){
+                    throw new InfoDoesNotExistException("A card with ID: " + cardId + " doesn't exist!");
+                }
+                else{
+                    card.setQuestion(cardObject.getQuestion());
+                    card.setAnswer(cardObject.getAnswer());
+                    return cardRepository.save(card);
+                }
+            }
+            else{
+
+                throw new RestrictedAccessException("You cannot alter cards in this topic!");
+            }
+        }
+        else{
+            throw new NotLoggedInException("You must be logged in to add custom cards!");
+        }
+    }
+
+    
 }

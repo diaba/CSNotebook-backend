@@ -40,7 +40,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests().antMatchers(
                         "/auth/users", "/auth/users/login", "/auth/users/register", "/auth/users/",
-                        "/api/topics", "/api/topics/{topicName}", "/api/topics/{topicName}/cards").permitAll()
+                        "/api/topics", "/api/topics/{topicName}", "/api/topics/{topicName}/cards", "/api/topics/{topicName}/cards/{cardId}").permitAll()
                 .anyRequest().authenticated()
                 .and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)

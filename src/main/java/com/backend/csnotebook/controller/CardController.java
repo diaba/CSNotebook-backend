@@ -43,4 +43,19 @@ public class CardController {
         LOGGER.info("Calling createNewCard() method from CardController!");
         return cardService.createNewCard(topicName, cardObject);
     }
+
+    /** Updates a card with new information for a given topic.
+     * @param topicName The name of the topic in which the card to update exists.
+     * @param cardId The ID of the card in which to update
+     * @param cardObject The card object containing the new card information.
+     * @return A newly updated object.
+     */
+    // UPDATE NEW CARD
+    @PutMapping("{topicName}/cards/{cardId}")
+    public Card updateCard(@PathVariable(value = "topicName") String topicName,
+                           @PathVariable(value = "cardId") Long cardId,
+                           @RequestBody Card cardObject){
+        LOGGER.info("Calling updateCard() method from CardController");
+        return cardService.updateCard(topicName, cardId, cardObject);
+    }
 }
