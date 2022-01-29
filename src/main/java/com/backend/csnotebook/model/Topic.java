@@ -24,7 +24,7 @@ public class Topic {
     private String name;
 
     /** Topic description property Represents the description of the topic. */
-    @Column(length = 2000)
+    @Column(length = 1000)
     private String description;
 
     /** The Topic's Card Property - Contains all Cards entered by the user. */

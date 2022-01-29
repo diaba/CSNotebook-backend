@@ -20,8 +20,11 @@ public class Card {
     @Column(length = 300)
     private String question;
 
-    @Column(length = 4000)
+    @Column(length = 3000)
     private String answer;
+
+    @Column
+    private String link;
 
     /** The meal property associated with the food */
     @JsonIgnore
@@ -81,5 +84,19 @@ public class Card {
      * @param topic  The topic related to the card. */
     public void setTopic(Topic topic) {
         this.topic = topic;
+    }
+
+    /** Retrieves the link related to the card.
+     * @return link assigned to the specific card.
+     */
+    public String getLink() {
+        return link;
+    }
+
+    /** Sets the link for the specific card.
+     * @param link The link in which to assign to the card.
+     */
+    public void setLink(String link) {
+        this.link = link;
     }
 }

@@ -110,6 +110,7 @@ public class CardService {
                 else{
                     card.setQuestion(cardObject.getQuestion());
                     card.setAnswer(cardObject.getAnswer());
+                    card.setLink(cardObject.getLink());
                     return cardRepository.save(card);
                 }
             }
