@@ -5,7 +5,7 @@
 This project serves as the backend for the "CSNotebook" web application. The aim of this project is to deliver a useful training / learning resource to help individuals within the many realms of computer science develop their knowledge and understanding of the field and to grow as professionals. 
 
 ## :computer: CORE TECHNOLOGIES :computer:
-<img src="img/java_red.png" alt="java logo" width="10%"><img src="img/sboot.png" alt="spring boot logo" width="10%"><img src="img/jwt.png" alt="jwt logo" width="10%"><img src="img/pg.png" alt="pg logo" width="10%"><img src="img/post.png" alt="post logo" width="10%"><img src="img/git.png" alt="git logo" width="10%"><img src="img/gitkrak.png" alt="gitkraken logo" width="10%"><img src="img/gh.png" alt="github logo" width="10%"><img src="img/intellij.png" alt="intellij logo" width="10%"><img src="img/trello.jpg" alt="trello logo" width="10%">
+<img src="img/java_red.png" alt="java logo" width="8%"><img src="img/sboot.png" alt="spring boot logo" width="8%"><img src="img/jwt.png" alt="jwt logo" width="10%"><img src="img/pg.png" alt="pg logo" width="8%"><img src="img/post.png" alt="post logo" width="8%"><img src="img/git.png" alt="git logo" width="8%"><img src="img/gitkrak.png" alt="gitkraken logo" width="8%"><img src="img/gh.png" alt="github logo" width="8%"><img src="img/intellij.png" alt="intellij logo" width="8%"><img src="img/trello.jpg" alt="trello logo" width="8%">
 
 - <h5>Java 11</h5>
 - <h5>Spring Boot</h5>
