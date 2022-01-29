@@ -28,9 +28,10 @@ public class TopicService {
 
     /** Called from the TopicController to return a list of topics.
      * @return A list of topics. */
-    public List<Topic> getAllTopics() {
+    public List<Topic> getAllFreeTopics() {
         LOGGER.info("Called getAllTopics() method from TopicService");
-        List<Topic> topics = topicRepository.findAll();
+        Long freeTopics = 1L; // Base topics share a user ID of '1'. Only admin can change.
+        List<Topic> topics = topicRepository.findByUserId(freeTopics);
         if(topics.isEmpty()){
             throw new InfoDoesNotExistException("No Topics Found!");
         }
@@ -39,6 +40,25 @@ public class TopicService {
         }
     }
 
+    /** Gets topics specific / belonging to the user who is logged in.
+     * @param userId The ID of the user.
+     * @return The list of topics belonging to the user.
+     */
+    public List<Topic> getUserSpecificTopics(Long userId) {
+        LOGGER.info("Called getAllTopics() method from TopicService");
+        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder
+                .getContext().getAuthentication().getPrincipal();
+        List<Topic> topics = topicRepository.findByUserId(userDetails.getUser().getId());
+        if (topics == null){
+            throw new InfoDoesNotExistException("This user hasn't created any topics!");
+        }
+        else{
+            return topics;
+        }
+    }
+
+
+
     /** Called by the TopicController to find a topic by its ID.
      * @param topicName The name of the topic to search for.
      * @return topic matching the topic's name.
@@ -46,7 +66,7 @@ public class TopicService {
     public Topic getTopicByName(String topicName) {
         LOGGER.info("Calling getTopicById() method TopicService!");
         Topic topic = topicRepository.findByName(topicName);
-        if (topic != null){
+        if (topic != null && topic.getUser().getId() == 1){
             return topic;
         }
         else{
@@ -128,4 +148,6 @@ public class TopicService {
             throw new NotLoggedInException("You must be logged in!");
         }
     }
+
+
 }

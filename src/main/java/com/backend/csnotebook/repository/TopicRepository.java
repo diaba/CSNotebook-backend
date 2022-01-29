@@ -2,10 +2,12 @@ package com.backend.csnotebook.repository;
 
 import com.backend.csnotebook.model.Topic;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 /** Handles all queries related to the Topics table */
+@Repository
 public interface TopicRepository extends JpaRepository<Topic, Long> {
 
     /** Finds a topic by its name and the user ID associated with it.
@@ -25,4 +27,10 @@ public interface TopicRepository extends JpaRepository<Topic, Long> {
      * @return A list of topics belonging to the User with the matching ID.
      */
     List<Topic> findByUserId(Long id);
+
+    /** Finds all categories belonging to a specific user.
+     * @param id The ID of the user in which to search.
+     * @return A list of topics belonging to the user with the matching ID
+     */
+    List<Topic> findAllByUserId(Long id);
 }

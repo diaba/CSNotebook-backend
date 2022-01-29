@@ -5,7 +5,6 @@ import com.backend.csnotebook.model.auth.request.LoginRequest;
 import com.backend.csnotebook.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,12 +19,6 @@ public class UserController {
 
     private UserService userService;
     private static final Logger LOGGER = Logger.getLogger(UserController.class.getName());
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
-    public void setAuthenticationManager(AuthenticationManager authenticationManager) {
-        this.authenticationManager = authenticationManager;
-    }
 
     @Autowired
     public void setUserService(UserService userService) {

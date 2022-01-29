@@ -2,8 +2,10 @@ package com.backend.csnotebook.repository;
 
 import com.backend.csnotebook.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 /** Handles custom queries in the Users table */
+@Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     /** Determines if the user exists based on searched email result.
      * @param email The email in which to search and find if it exists.

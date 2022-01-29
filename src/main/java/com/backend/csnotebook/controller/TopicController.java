@@ -23,12 +23,24 @@ public class TopicController {
 
     /** Returns ALL topics available belonging to the user.
      * @return topics */
-    // GET ALL TOPICS (localhost:9092/api/topics)
+    // GET ALL FREE TOPICS (localhost:9092/api/topics)
     @GetMapping("/topics")
-    public List<Topic> getAllTopics(){
+    public List<Topic> getAllFreeTopics(){
         LOGGER.info("getAllTopics() Method called from TopicController!");
-        return topicService.getAllTopics();
+        return topicService.getAllFreeTopics();
     }
+
+    /** Returns a list of topics that belong to the user.
+     * @param userId The ID of the user in which the topics belong to.
+     * @return The list of topics belonging to the user.
+     */
+    // GET USER SPECIFIC TOPICS (.../api/topics/{userId})
+    @GetMapping("/topics/{userId}")
+    public List<Topic> getUserSpecificTopics(Long userId){
+        LOGGER.info("Calling getUserSpecificTopics() method from Topic Controller!");
+        return topicService.getUserSpecificTopics(userId);
+    }
+
 
     /** Returns a specific topic with the given topic name.
      * @param topicName - The topic's Name in which to search

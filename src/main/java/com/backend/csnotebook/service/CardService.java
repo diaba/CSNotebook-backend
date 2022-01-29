@@ -163,7 +163,8 @@ public class CardService {
      */
     public List<Card> getAllFreeCards() {
         LOGGER.info("Calling getAllFreeCards method from CardService!");
-        List<Topic> topics = topicRepository.findByUserId(null);
+        Long freeTopics = 1L;
+        List<Topic> topics = topicRepository.findByUserId(freeTopics);
         List<Card> cards = new ArrayList<>();
         topics.forEach(topic -> {
             cards.addAll(topic.getCards());
